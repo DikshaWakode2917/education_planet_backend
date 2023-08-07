@@ -1,0 +1,29 @@
+package com.courses.backend.payloads;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class CourseDto {
+	
+	private String courseTitle;
+	private int position;
+	private boolean status;
+	
+	
+	public CourseDto() {
+		
+	}
+
+
+	public CourseDto(String courseTitle, int position, boolean status) {
+		super();
+		this.courseTitle = courseTitle;
+		this.position = position;
+		this.status = status;
+	}
+	
+	
+	
+}
