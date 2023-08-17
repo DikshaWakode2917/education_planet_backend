@@ -1,5 +1,10 @@
 package com.courses.backend.payloads;
 
+import java.util.List;
+import java.util.UUID;
+
+import com.courses.backend.entities.SubCourse;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,23 +12,34 @@ import lombok.Setter;
 @Setter
 public class CourseDto {
 	
+	private UUID courseId;
 	private String courseTitle;
 	private int position;
 	private boolean status;
+	private List<SubCourse> subCourse; 
 	
 	
 	public CourseDto() {
 		
 	}
 
-
-	public CourseDto(String courseTitle, int position, boolean status) {
-		super();
-		this.setCourseTitle(courseTitle);
-		this.setPosition(position);
-		this.setStatus(status);
+	public CourseDto(UUID courseId, String courseTitle, int position, boolean status, List<SubCourse> subCourse) {
+		this.courseId = courseId;
+		this.courseTitle = courseTitle;
+		this.position = position;
+		this.status = status;
+		this.subCourse = subCourse;
 	}
 
+	
+
+	public UUID getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(UUID courseId) {
+		this.courseId = courseId;
+	}
 
 	public String getCourseTitle() {
 		return courseTitle;
@@ -54,6 +70,13 @@ public class CourseDto {
 		this.status = status;
 	}
 	
-	
+	public List<SubCourse> getSubCourses() {
+		return subCourse;
+	}
+
+	public void setSubCourses(List<SubCourse> subCourses) {
+		this.subCourse = subCourse;
+	}
+
 	
 }

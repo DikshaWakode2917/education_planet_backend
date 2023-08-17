@@ -14,6 +14,7 @@ import com.courses.backend.entities.SubCourse;
 import com.courses.backend.exceptions.ResourceNotFoundException;
 import com.courses.backend.payloads.CourseDto;
 import com.courses.backend.payloads.SubCourseDto;
+import com.courses.backend.repositories.CourseRepo;
 import com.courses.backend.repositories.SubCourseRepo;
 import com.courses.backend.services.SubCourseService;
 
@@ -23,6 +24,9 @@ public  class SubCourseServiceImpl implements SubCourseService {
 	@Autowired
 	private SubCourseRepo subCourseRepo;
 	
+	@Autowired
+    private CourseRepo courseRepo;
+	
 	@Override
 	public SubCourseDto createSubCourse(SubCourseDto subCourseDto) {
 		SubCourse subCourse = this.dtoToSubCourse(subCourseDto);
@@ -30,6 +34,28 @@ public  class SubCourseServiceImpl implements SubCourseService {
 		return this.subCourseToDto(savedSubCourse);
 	}
 	
+	@Override
+	public CourseDto addSubCourseToCourse(String courseTitle, SubCourseDto subCourseDto) {
+	    Course course = courseRepo.findByCourseTitle(courseTitle);
+
+	    if (course != null) {
+	        SubCourse subCourse = dtoToSubCourse(subCourseDto);
+	        course.addSubCourse(subCourse);
+	        courseRepo.save(course);
+	        // Update the CourseDto if needed
+	        CourseDto updatedCourseDto = subCourseToDto(course);
+	        return updatedCourseDto;
+	    } else {
+	        throw new ResourceNotFoundException("Course", "title", courseTitle);
+	    }
+	}
+
+	
+	private CourseDto subCourseToDto(Course course) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public SubCourseDto updateSubCourse(SubCourseDto subCourseDto, String subCourseTitle) {
 		SubCourse subCourse = this.dtoToSubCourse(subCourseDto);
@@ -73,13 +99,22 @@ public  class SubCourseServiceImpl implements SubCourseService {
 		}
 	}
 	
-	public SubCourse dtoToSubCourse(SubCourseDto subCourseDto) {
-		SubCourse subCourse = new SubCourse();
-		subCourse.setSubCourseTitle(subCourseDto.getSubCourseTitle());
-		subCourse.setPosition(subCourseDto.getPosition());
-		subCourse.setStatus(subCourseDto.isStatus());
-		return subCourse;
-	}
+	private SubCourse dtoToSubCourse(SubCourseDto subCourseDto) {
+        SubCourse subCourse = new SubCourse();
+        subCourse.setSubCourseTitle(subCourseDto.getSubCourseTitle());
+        subCourse.setPosition(subCourseDto.getPosition());
+        subCourse.setStatus(subCourseDto.isStatus());
+        // You might need to map other properties here
+        return subCourse;
+    }
+	
+//	public SubCourse dtoToSubCourse(SubCourseDto subCourseDto) {
+//		SubCourse subCourse = new SubCourse();
+//		subCourse.setSubCourseTitle(subCourseDto.getSubCourseTitle());
+//		subCourse.setPosition(subCourseDto.getPosition());
+//		subCourse.setStatus(subCourseDto.isStatus());
+//		return subCourse;
+//	}
 	
 	public SubCourseDto subCourseToDto(SubCourse subCourse) {
 		SubCourseDto subCourseDto = new SubCourseDto();

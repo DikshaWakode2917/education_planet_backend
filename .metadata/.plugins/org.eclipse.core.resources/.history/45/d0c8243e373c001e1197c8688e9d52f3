@@ -1,0 +1,86 @@
+package com.courses.backend.controllers;
+
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.courses.backend.payloads.CourseDto;
+import com.courses.backend.payloads.SubCourseDto;
+import com.courses.backend.services.CourseService;
+
+@CrossOrigin(origins = "http://localhost:3000")
+@RestController
+@RequestMapping("/api/courses")
+public class CourseController {
+	
+	
+	@Autowired
+	private CourseService courseService;
+	
+//	//POST-create course
+//	@PostMapping
+//	public ResponseEntity<CourseDto> createCourse(@RequestBody CourseDto courseDto) {
+//		CourseDto createCourseDto = this.courseService.createCourse(courseDto);
+//		return new ResponseEntity<>(createCourseDto, HttpStatus.CREATED);
+//	}
+	
+	 // POST - Add SubCourse to Course
+    @PostMapping("/{courseTitle}/subCourses")
+    public ResponseEntity<CourseDto> addSubCourseToCourse(
+            @PathVariable String courseTitle,
+            @RequestBody SubCourseDto subCourseDto) {
+
+        CourseDto updatedCourse = this.courseService.addSubCourseToCourse(courseTitle, subCourseDto);
+        return ResponseEntity.ok(updatedCourse);
+    }
+	
+	//PUT-update course
+	@PutMapping("/{courseTitle}")
+	public ResponseEntity<CourseDto> updateCourse(@RequestBody CourseDto courseDto,@PathVariable("courseTitle") String courseTitle){
+		CourseDto updatedCourse = this.courseService.updateCourse(courseDto, courseTitle);
+		return ResponseEntity.ok(updatedCourse);
+	}
+	
+	
+	//DELETE- delete course
+	@DeleteMapping("/{courseTitle}")
+	public ResponseEntity<CourseDto> deleteCourse(@PathVariable("courseTitle") String courseTitle){
+		boolean success = this.courseService.deleteCourse(courseTitle);
+		if(success) {
+			return new ResponseEntity(Map.of("message","Course Deleted Successfully"),HttpStatus.OK);   //Use when not create ApiResponse class
+		}
+		else {
+			return new ResponseEntity(Map.of("message","Course not Available"),HttpStatus.NOT_FOUND);  
+
+		}
+		
+		//return new ResponseEntity<CourseDto>(new ApiResponse("User Deleted Successfully",true), HttpStatus.OK);
+	}
+	
+	
+	//GET- course get
+	
+	@GetMapping("/{courseTitle}")
+	public ResponseEntity<CourseDto> getSingleCourse(@PathVariable String courseTitle){
+		return ResponseEntity.ok(this.courseService.getCourseById(courseTitle));
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<CourseDto>> getAllCourses(){
+		return ResponseEntity.ok(this.courseService.getAllCourses());
+	}
+
+}

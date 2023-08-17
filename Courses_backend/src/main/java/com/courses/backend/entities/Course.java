@@ -23,25 +23,51 @@ import lombok.Setter;
 @Setter
 public class Course {
 
-    @Id
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "course_id", columnDefinition = "BINARY(16)")
+	private UUID courseId; // Adding UUID field as primary key
+    
+    
     @Column(name = "courseTitle", nullable = false, length = 100)
     private String courseTitle;
     
     private int position;
     private boolean status;
+    @OneToMany(mappedBy = "courseTitle", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SubCourse> subCourses = new ArrayList<>();
     
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SubCourse> subCourses = new ArrayList<> ();
+    public void addSubCourse(SubCourse subCourse) {
+        subCourses.add(subCourse);
+        subCourse.setSubCourseTitle(courseTitle);
+    }
+
+    public void removeSubCourse(SubCourse subCourse) {
+        subCourses.remove(subCourse);
+        subCourse.setSubCourseTitle(null);
+    }
+    
+    
 
 	public Course() {
+		super();
 	}
 
-	public Course(String courseTitle, int position, boolean status, List<SubCourse> subCourses) {
+	public Course(UUID courseId, String courseTitle, int position, boolean status, List<SubCourse> subCourses) {
 		super();
+		this.courseId = courseId;
 		this.courseTitle = courseTitle;
 		this.position = position;
 		this.status = status;
 		this.subCourses = subCourses;
+	}
+
+	public UUID getCourseId() {
+		return courseId;
+	}
+
+	public void setCourseId(UUID courseId) {
+		this.courseId = courseId;
 	}
 
 	public String getCourseTitle() {
@@ -75,7 +101,7 @@ public class Course {
 	public void setSubCourses(List<SubCourse> subCourses) {
 		this.subCourses = subCourses;
 	}
-	
-	
-	
+
+    
+		
 }

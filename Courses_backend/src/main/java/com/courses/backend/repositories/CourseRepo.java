@@ -10,5 +10,10 @@ import com.courses.backend.entities.Course;
 @Repository
 public interface CourseRepo extends JpaRepository<Course,String>{
 
+	
+
+	Course findByCourseTitle(String courseTitle);
+
+
 
 }
