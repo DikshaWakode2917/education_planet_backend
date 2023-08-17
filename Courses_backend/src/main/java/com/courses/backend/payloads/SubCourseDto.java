@@ -9,19 +9,31 @@ import lombok.Setter;
 @Setter
 public class SubCourseDto {
 	
+	private UUID subCourseId;
 	private String subCourseTitle;
 	private int position;
 	private boolean status;
+	
 	
 	public SubCourseDto() {
 		super();
 	}
 
-	public SubCourseDto(String subCourseTitle, int position, boolean status) {
+	public SubCourseDto(UUID subCourseId, String subCourseTitle, int position, boolean status) {
 		super();
+		this.subCourseId = subCourseId;
 		this.subCourseTitle = subCourseTitle;
 		this.position = position;
 		this.status = status;
+		
+	}
+
+	public UUID getSubCourseId() {
+		return subCourseId;
+	}
+
+	public void setSubCourseId(UUID subCourseId) {
+		this.subCourseId = subCourseId;
 	}
 
 	public String getSubCourseTitle() {
@@ -46,8 +58,5 @@ public class SubCourseDto {
 
 	public void setStatus(boolean status) {
 		this.status = status;
-	}
-	
-	
-
+	}		
 }

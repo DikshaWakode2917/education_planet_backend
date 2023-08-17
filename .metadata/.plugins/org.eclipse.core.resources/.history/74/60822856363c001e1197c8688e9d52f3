@@ -1,0 +1,111 @@
+package com.courses.backend.entities;
+
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
+import com.courses.backend.payloads.SubCourseDto;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+
+
+@Entity
+@Table(name="subCourse")
+@Getter
+@Setter
+public class SubCourse {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "subCourseId", columnDefinition = "BINARY(16)")
+	private UUID subCourseId; // Adding UUID field as primary key
+    
+	
+	@Column(name = "subCourseTitle", nullable = false, length = 100)
+	private String subCourseTitle;
+	
+	private int position;
+    private boolean status;
+	
+    @ManyToOne
+    @JoinColumn(name = "title")
+    private Course courseTitle;
+    
+    private List<SubCourseDto> subCourses;
+
+	public SubCourse() {
+	}
+
+	public SubCourse(UUID subCourseId, String subCourseTitle, int position, boolean status, Course courseTitle,
+			List<SubCourseDto> subCourses) {
+		super();
+		this.subCourseId = subCourseId;
+		this.subCourseTitle = subCourseTitle;
+		this.position = position;
+		this.status = status;
+		this.courseTitle = courseTitle;
+		this.subCourses = subCourses;
+	}
+
+	public UUID getSubCourseId() {
+		return subCourseId;
+	}
+
+	public void setSubCourseId(UUID subCourseId) {
+		this.subCourseId = subCourseId;
+	}
+
+	public String getSubCourseTitle() {
+		return subCourseTitle;
+	}
+
+	public void setSubCourseTitle(String subCourseTitle) {
+		this.subCourseTitle = subCourseTitle;
+	}
+
+	public int getPosition() {
+		return position;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
+	public boolean isStatus() {
+		return status;
+	}
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+
+	public Course getCourseTitle() {
+		return courseTitle;
+	}
+
+	public void setCourseTitle(Course courseTitle) {
+		this.courseTitle = courseTitle;
+	}
+
+	public List<SubCourseDto> getSubCourses() {
+		return subCourses;
+	}
+
+	public void setSubCourses(List<SubCourseDto> subCourses) {
+		this.subCourses = subCourses;
+	}
+
+	
+
+	
+}

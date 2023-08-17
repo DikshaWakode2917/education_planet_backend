@@ -1,0 +1,66 @@
+package com.courses.backend.payloads;
+
+import java.util.List;
+import java.util.UUID;
+
+import com.courses.backend.entities.SubCourse;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class CourseDto {
+	
+	private String courseTitle;
+	private int position;
+	private boolean status;
+	private UUID courseId;
+	private List<SubCourse> subCourses; 
+	
+	
+	public CourseDto() {
+		
+	}
+
+	public CourseDto(UUID courseId, String courseTitle, int position, boolean status, List<SubCourse> subCourses) {
+		this.courseId = courseId;
+		this.courseTitle = courseTitle;
+		this.position = position;
+		this.status = status;
+		this.subCourses = subCourses;
+	}
+
+
+	public String getCourseTitle() {
+		return courseTitle;
+	}
+
+
+	public void setCourseTitle(String courseTitle) {
+		this.courseTitle = courseTitle;
+	}
+
+
+	public int getPosition() {
+		return position;
+	}
+
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
+
+
+	public boolean isStatus() {
+		return status;
+	}
+
+
+	public void setStatus(boolean status) {
+		this.status = status;
+	}
+	
+	
+	
+}

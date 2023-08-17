@@ -27,13 +27,21 @@ public class SubCourseController {
 	@Autowired
 	private SubCourseService subCourseService;
 	
-	// Post- create subCourse
-	@PostMapping
-	public ResponseEntity<SubCourseDto> createSubCourse(@RequestBody SubCourseDto subCourseDto) {
-		SubCourseDto createSubCourseDto = this.subCourseService.createSubCourse(subCourseDto);
-		return new ResponseEntity<> (createSubCourseDto, HttpStatus.CREATED);
-	}
+//	// Post- create subCourse
+//	@PostMapping
+//	public ResponseEntity<SubCourseDto> createSubCourse(@RequestBody SubCourseDto subCourseDto) {
+//		SubCourseDto createSubCourseDto = this.subCourseService.createSubCourse(subCourseDto);
+//		return new ResponseEntity<> (createSubCourseDto, HttpStatus.CREATED);
+//	}
 
+	 @PostMapping("/{courseTitle}") // Add subcourse to a course
+	    public ResponseEntity<CourseDto> addSubCourseToCourse(
+	            @PathVariable("courseTitle") String courseTitle,
+	            @RequestBody SubCourseDto subCourseDto) {
+	        CourseDto updatedCourseDto = subCourseService.addSubCourseToCourse(courseTitle, subCourseDto);
+	        return ResponseEntity.ok(updatedCourseDto);
+	    }
+	
 //public ResponseEntity<SubCourseDto> createSubCourse(@RequestBody SubCourseDto subCourseDto, @PathVariable("subCourseId") UUID SubCourseId )
 	
 	@PutMapping("/{subCourseTitle}")

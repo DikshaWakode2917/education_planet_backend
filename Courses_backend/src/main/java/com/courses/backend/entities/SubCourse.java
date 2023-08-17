@@ -2,8 +2,6 @@ package com.courses.backend.entities;
 
 import java.util.UUID;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,25 +21,39 @@ import lombok.Setter;
 public class SubCourse {
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "subCourseId", columnDefinition = "BINARY(16)")
+	private UUID subCourseId; // Adding UUID field as primary key
+    
+	
 	@Column(name = "subCourseTitle", nullable = false, length = 100)
 	private String subCourseTitle;
 	
 	private int position;
     private boolean status;
 	
-	@ManyToOne
-	@JoinColumn(name = "title") 
-	Course course ;
-
+    @ManyToOne
+    @JoinColumn(name = "title")
+    private Course courseTitle;
+    
 	public SubCourse() {
 	}
 
-	public SubCourse(String subCourseTitle, int position, boolean status, Course course) {
+	public SubCourse(UUID subCourseId, String subCourseTitle, int position, boolean status, Course courseTitle) {
 		super();
+		this.subCourseId = subCourseId;
 		this.subCourseTitle = subCourseTitle;
 		this.position = position;
 		this.status = status;
-		this.course = course;
+		this.courseTitle = courseTitle;
+			}
+
+	public UUID getSubCourseId() {
+		return subCourseId;
+	}
+
+	public void setSubCourseId(UUID subCourseId) {
+		this.subCourseId = subCourseId;
 	}
 
 	public String getSubCourseTitle() {
@@ -68,13 +80,11 @@ public class SubCourse {
 		this.status = status;
 	}
 
-	public Course getCourse() {
-		return course;
+	public Course getCourseTitle() {
+		return courseTitle;
 	}
 
-	public void setCourse(Course course) {
-		this.course = course;
-	}
-		
-	
+	public void setCourseTitle(Course courseTitle) {
+		this.courseTitle = courseTitle;
+	}	
 }
